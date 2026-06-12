@@ -106,6 +106,9 @@ final class MCEmojiPickerView: UIView {
         return bounds.width * 0.13
     }()
     
+    /// Layout and category views are configured once; `draw(_:)` can be called multiple times (e.g. on iOS 26).
+    private var isSetupCompleted = false
+
     private weak var delegate: MCEmojiPickerViewDelegate?
     
     // MARK: - Initializers
@@ -126,6 +129,8 @@ final class MCEmojiPickerView: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        guard !isSetupCompleted else { return }
+        isSetupCompleted = true
         setupCategoryViews()
         setupCollectionViewLayout()
         setupCollectionViewBottomInsets()
